@@ -34,6 +34,13 @@ func GelatoUpload(bucket, filename string) {
 	fmt.Println("Response:", resp)
 }
 
+func GelatoDownload(bucket, filename string) {
+	// <bucket name> <object key>
+	err := c.DownloadObject(bucket, filename)
+	if err != nil {
+		fmt.Println("Error Download", err)
+	}
+}
 
 func init () {
 

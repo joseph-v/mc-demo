@@ -12,12 +12,9 @@ import (
 
 const (
 	filename = "out.txt"
-	// KAFKA_URL = "localhost:9092"
-	// KAFKA_TOPIC = "streams-wordcount-processor-output"
-	// KAFKA_GROUP_ID = "TestGroupID"
-	KAFKA_URL = "KAFKA_URL"
-	KAFKA_TOPIC = "KAFKA_TOPIC"
-	KAFKA_GROUP_ID = "KAFKA_GROUP_ID"
+	KAFKA_URL = "localhost:9092"
+	KAFKA_TOPIC = "multicloud-output2"
+	KAFKA_GROUP_ID = "TestGroupID"
 )
 
 
@@ -34,21 +31,10 @@ func getKafkaReader(kafkaURL, topic, groupID string) *kafka.Reader {
 }
 
 func main() {
-	// get kafka reader using environment variables.
-	kafkaURL, ok := os.LookupEnv(KAFKA_URL)
-	if !ok {
-		fmt.Println("Error getting KAFKA URL from environment variable")
-	}
 
-	topic, ok := os.LookupEnv(KAFKA_TOPIC)
-	if !ok {
-		fmt.Println("Error getting KAFKA TOPIC from environment variable")
-	}
-
-	groupID, ok := os.LookupEnv(KAFKA_GROUP_ID)
-	if !ok {
-		fmt.Println("Error getting KAFKA GROUP ID from environment variable")
-	}
+	kafkaURL := KAFKA_URL
+	topic := KAFKA_TOPIC
+	groupID := KAFKA_GROUP_ID
 
 	reader := getKafkaReader(kafkaURL, topic, groupID)
 
