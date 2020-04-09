@@ -5,9 +5,7 @@ import (
 	"os"
 
 	"github.com/opensds/multi-cloud/client"
-	"github.com/opensds/multi-cloud/api/pkg/context"
 )
-
 
 const (
     fname = "out.txt"
@@ -21,8 +19,6 @@ func exitErrorf(msg string, args ...interface{}) {
     fmt.Fprintf(os.Stderr, msg+"\n", args...)
     os.Exit(1)
 }
-
-
 
 func GelatoUpload(bucket, filename string) {
 	// <bucket name> <object key> <object>
@@ -45,6 +41,8 @@ func GelatoDownload(bucket, filename string) {
 func init () {
 
 	fmt.Println ("Initialize multicloud")
+
+	// Environment variables to be exported
 
 	// export MULTI_CLOUD_IP=192.168.20.158
 	// export MICRO_SERVER_ADDRESS=:8089
@@ -74,9 +72,9 @@ func init () {
 	case client.Keystone:
 		cfg.AuthOptions = client.LoadKeystoneAuthOptions()
 	case client.Noauth:
-		cfg.AuthOptions = client.NewNoauthOptions(context.NoAuthAdminTenantId)
+		cfg.AuthOptions = client.NewNoauthOptions("adminTenantId")
 	default:
-		cfg.AuthOptions = client.NewNoauthOptions(context.DefaultTenantId)
+		cfg.AuthOptions = client.NewNoauthOptions("tenantId")
 	}
 
 	c = client.NewClient(cfg)

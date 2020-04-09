@@ -66,7 +66,7 @@ function start_kafka()
 
     # echo "Kafka console"
     # bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic $INPUT_TOPIC
-    # bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic $INPUT_TOPIC
+    # bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic $OUTPUT2_TOPIC
 
     echo "List Topics"
     bin/kafka-topics.sh --list --bootstrap-server localhost:9092

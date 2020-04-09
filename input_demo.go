@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	// "log"
 	"os"
 	"fmt"
 	"strings"
@@ -11,28 +10,14 @@ import (
 )
 
 const (
-	bucket = "bkt002"
+	bucket = "bkt001"
 	KAFKA_URL = "localhost:9092"
 	KAFKA_TOPIC = "multicloud-input"
 	KAFKA_GROUP_ID = "TestGroupID"
-	// KAFKA_URL = "KAFKA_URL"
-	// KAFKA_TOPIC = "KAFKA_TOPIC"
-	// KAFKA_GROUP_ID = "KAFKA_GROUP_ID"
 )
 
 var inps = [12] string {
-	"photo1.txt",
-	"photo2.txt",
-	"photo3.txt",
-	"photo4.txt",
-	"photo5.txt",
-	"photo6.txt",
-	"photo7.txt",
-	"photo8.txt",
-	"photo9.txt",
-	"photo10.txt",
-	"photo11.txt",
-	"photo12.txt",
+	// Input DATA with labels
 
 	// photo1.txt apple
 	// photo2.txt zebra
@@ -46,9 +31,21 @@ var inps = [12] string {
 	// photo10.txt duck
 	// photo11.txt dove
 	// photo12.txt mango
+
+	"photo1.txt",
+	"photo2.txt",
+	"photo3.txt",
+	"photo4.txt",
+	"photo5.txt",
+	"photo6.txt",
+	"photo7.txt",
+	"photo8.txt",
+	"photo9.txt",
+	"photo10.txt",
+	"photo11.txt",
+	"photo12.txt",
+
 }
-
-
 
 func getKafkaWriter(kafkaURL, topic, groupID string) *kafka.Writer {
 	brokers := strings.Split(kafkaURL, ",")
@@ -58,8 +55,6 @@ func getKafkaWriter(kafkaURL, topic, groupID string) *kafka.Writer {
 		Balancer: &kafka.LeastBytes{},
 	})
 }
-
-
 
 func upload() {
 
@@ -71,8 +66,6 @@ func upload() {
 }
 
 func processFile(filename string) []byte {
-
-	// fmt.Println("Reading input file:", filename)
 	f, err := os.OpenFile(filename, os.O_RDONLY, 0644)
 	if err != nil {
 		fmt.Println("Error Opening input file", filename, err)
@@ -96,22 +89,6 @@ func processFile(filename string) []byte {
 }
 
 func main() {
-	// get kafka reader using environment variables.
-	// kafkaURL, ok := os.LookupEnv(KAFKA_URL)
-	// if !ok {
-	// 	fmt.Println("Error getting KAFKA URL from environment variable")
-	// }
-
-	// topic, ok := os.LookupEnv(KAFKA_TOPIC)
-	// if !ok {
-	// 	fmt.Println("Error getting KAFKA TOPIC from environment variable")
-	// }
-
-	// groupID, ok := os.LookupEnv(KAFKA_GROUP_ID)
-	// if !ok {
-	// 	fmt.Println("Error getting KAFKA GROUP ID from environment variable")
-	// }
-
 	kafkaURL := KAFKA_URL
 	topic := KAFKA_TOPIC
 	groupID := KAFKA_GROUP_ID

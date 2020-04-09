@@ -6,7 +6,7 @@ Two cases are identified for the purpose of demonstrating multi-cloud features f
 
 ## Case 1: Connecting Stream Processor after Multi-Cloud
 
-In this case Stream Processor get its input from Multi-cloud, where this inputs are objects stored in cloud and/or on-prem. These objects can be previously stored Stream Processor output, or any objects that are stpred and managed by multi-cloud.
+In this case Stream Processor get its input from Multi-cloud, where this inputs are objects stored in cloud and/or on-prem. These objects can be previously stored Stream Processor output, or any objects that are stored and managed by multi-cloud.
 
 This demo shows how to get data/files from the cloud using multi-cloud, and do stream processing like analysis & categorization and generate processed output. In this simplified usecase, the Stream processor download a list of photo files, which are labelled with names of animals, birds and fruits. Stream processor will identify these from labels and categorize them to Animals, Birds, Fruits and Unknown and outputs, the count of these categories.
 
@@ -44,8 +44,12 @@ Refer document https://github.com/sodafoundation/opensds/wiki/OpenSDS-Cluster-In
     git clone https://github.com/sodafoundation/demos
     cd ./demos/mc-demo/streams-processor
 
-    ./setup.sh  # Download and Start Kafka, Create kafka topics, start JAVA app
-
+    ./setup.sh  # Download and Start Kafka, Create kafka topics
+   cd kafka_2.12-2.4.1/
+   bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic multicloud-input
+   bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic multicloud-input2
+   bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic multicloud-output
+   bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic multicloud-output2
     ```
 
  - Using SODA Dashboard upload input data files in folder ./mc-demo/DATA
@@ -57,11 +61,12 @@ Refer document https://github.com/sodafoundation/opensds/wiki/OpenSDS-Cluster-In
     ```bash
     cd ./mc-demo/streams-processor
     mvn clean package
-    mvn exec:java -Dexec.mainClass=myapps.DemoMultiCloudOutput
+    mvn exec:java -Dexec.mainClass=myapps.DemoMultiCloudInput
     ```
 
  - Start Kafka console client for checking the generated output
     ```bash
+    # Open a new terminal
     cd ./mc-demo/kafka_2.12-2.4.1
     bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic multicloud-output
 
@@ -78,7 +83,7 @@ Refer document https://github.com/sodafoundation/opensds/wiki/OpenSDS-Cluster-In
     make all
     
     #Get AKSK generated from OpenSDS Dashboard UI
-    export OS_ACCESS_KEY=ZNRJARg7wkfm9wxzuIeD
+    export OS_ACCESS_KEY=5gWcxQ9HfzJ1xkvmQMz6
 
     # Export environment variables
     export MULTI_CLOUD_IP=192.168.20.158
@@ -107,11 +112,11 @@ Refer document https://github.com/sodafoundation/opensds/wiki/OpenSDS-Cluster-In
 
  - Check the Java APP output and output topic
     ```bash
-
+   # Check JAVA app output & output topic
     ```
  
  ### Case 1 Demo Video
- Demo1.mp4
+ [Demo1.mp4](https://drive.google.com/open?id=1J1pNPLuyxi9oIj9YzzD-WRkJfdBrwbMh)
 
 
 ## Case 2: Connecting Stream processing in front of Multi-Cloud
@@ -134,7 +139,7 @@ This demo shows a stream processing application which counts words on the consol
     ```bash
     # Similar to Demo1, but no need to updload input files.
     ```
-  - Configure and Start kafka streaming
+  - Configure and Start kafka, and create topics streaming
     ```bash
     # Similar to Demo1
     ```
@@ -166,6 +171,6 @@ This demo shows a stream processing application which counts words on the consol
     ```
 
  ### Case 2 Dem2 Video
- Demo2.mp4
+ [Demo2.mp4](https://drive.google.com/open?id=1l01C20C4eQypNw-rKeN8CEk68GusII1P)
 
 

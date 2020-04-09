@@ -12,6 +12,7 @@ import (
 
 const (
 	filename = "out.txt"
+	bucket = "bkt001"
 	KAFKA_URL = "localhost:9092"
 	KAFKA_TOPIC = "multicloud-output2"
 	KAFKA_GROUP_ID = "TestGroupID"
@@ -50,10 +51,6 @@ func main() {
 	
 	defer f.Close()
 
-	// AWSClean()
-	// AWSInit()
-	// defer AWSClean()
-
 	fmt.Println("start consuming stream ...")
 
 	for {
@@ -75,11 +72,7 @@ func main() {
 		for key, value := range tbl {
 			fmt.Println(key, ":", value)
 			fmt.Fprintf(f, "%s : %s\n", string(key), string(value))
-			// AWSUpload(abucket, filename)
-			GelatoUpload("bkt002", filename)
+			GelatoUpload(bucket, filename)
 		}
 	}
-
-	// AWSClean()
-
 }
