@@ -4,9 +4,9 @@
 
 
 INPUT_TOPIC="multicloud-input"
-OOUTPUT_TOPIC="multicloud-output"
+OUTPUT_TOPIC="multicloud-output"
 INPUT2_TOPIC="multicloud-input2"
-OOUTPUT2_TOPIC="multicloud-output2"
+OUTPUT2_TOPIC="multicloud-output2"
 
 KAFKA_VER="kafka_2.12-2.4.1"
 
@@ -50,15 +50,19 @@ function start_kafka()
 
     echo "Start Zookeeper"
     bin/zookeeper-server-start.sh config/zookeeper.properties >zookeeper.log 2>&1 &
+    sleep 2
+    
+
 
     echo "Start Kafka"
     bin/kafka-server-start.sh config/server.properties >kafka.log 2>&1 &
+    sleep 2
 
-    echo "Create Kafka topics"
-    bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic $INPUT_TOPIC
-    bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic $OUTPUT_TOPIC
-    bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic $INPUT2_TOPIC
-    bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic $OUTPUT2_TOPIC
+    # echo "Create Kafka topics"
+    # bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic $INPUT_TOPIC
+    # bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic $OUTPUT_TOPIC
+    # bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic $INPUT2_TOPIC
+    # bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic $OUTPUT2_TOPIC
 
     # echo "Kafka console"
     # bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic $INPUT_TOPIC
@@ -72,9 +76,11 @@ function clean()
 {
     cd $KAFKA_FOLDER
 
-    echo "Remove topics of Kafka"
-    bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic $INPUT_TOPIC
-    bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic $OUTPUT_TOPIC
+    # echo "Remove topics of Kafka"
+    # bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic $INPUT_TOPIC
+    # bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic $OUTPUT_TOPIC
+    # bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic $INPUT2_TOPIC
+    # bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic $OUTPUT2_TOPIC
 
     echo "Stopping Kafka"
     bin/kafka-server-stop.sh
@@ -90,6 +96,7 @@ function start_app()
     echo "Start Stream Processor"
     mvn clean package
     mvn exec:java -Dexec.mainClass=myapps.DemoMultiCloudInput
+    # mvn exec:java -Dexec.mainClass=myapps.DemoMultiCloudOutput
 }
 
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
@@ -134,6 +141,6 @@ fi
 
 # --- Start ---
 
-# download_kafka
-# start_kafka
-start_app
+download_kafka
+start_kafka
+# start_app
